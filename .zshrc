@@ -2,14 +2,13 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/pop/.oh-my-zsh"
+export ZSH="/Users/nat/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
-
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="powerlevel9k/powerlevel9k"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -32,7 +31,6 @@ ZSH_THEME="powerlevel9k/powerlevel9k"
 
 # Uncomment the following line to change how often to auto-update (in days).
 # export UPDATE_ZSH_DAYS=13
-
 # Uncomment the following line if pasting URLs and other text is messed up.
 # DISABLE_MAGIC_FUNCTIONS=true
 
@@ -69,7 +67,76 @@ ZSH_THEME="powerlevel9k/powerlevel9k"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(
+  
+  # adds a bunch of git aliases. See aliases here. https://github.com/robbyrussell/oh-my-zsh/wiki/Plugin:git . Repo here https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/git
+  git 
+
+  # docker autocompletions https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/docker
+  #docker 
+
+  # shell command autocompletions https://github.com/zsh-users/zsh-autosuggestions
+  zsh-autosuggestions 
+
+  # aws cli autocompletions https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/aws
+  #aws 
+
+  # color man pages https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/colored-man-pages
+  #colored-man-pages 
+
+  # use ccat to syntax highlight "catted out filed" https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/colorize
+  # NOTE: YOU MUST INSTALL `pygments` python package. Easiest way to do this is through `pip` python package manager.
+  # Once you install it, restart terminal and you should be good.
+  colorize
+
+  # type "copydir" to copy the current directory to system clipboard. https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/copydir 
+  #copydir 
+
+  # type "copyfile" to copy contents of a file to system clipboard. https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/copyfile
+  #copyfile 
+
+  # type "gi [TEMPLATENAME] >> .gitignore" using templates from https://www.gitignore.io/ to use one of the templates. https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/gitignore
+  #gitignore
+
+  # adds heroku cli completion https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/heroku
+  #heroku
+
+  # use "h" to view command history or "hsi [argument]" to search for argument in history using grep https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/history
+  #history
+
+  # adds "src" command to reload the zsh session after editing this file https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/zsh_reload
+  #zsh_reload
+
+  # adds npm autocompletion as well as useful aliases https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/npm
+  npm
+
+  # adds "node-docs [libaryname]" command to open the documentation for that package https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/npm
+  node
+
+  # adds "extract [filename]" command to unzip compressed files like tar, zip, etc. https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/extract
+  #extract
+
+  # adds autojump navigation tool for navigating to directories.
+  # use j "full or partial directory name" to go to that directory
+  # or "jc" for child directory
+  # or "jo" to open file manager to that directory
+  # or "jco" to open file manager in child directory
+  # https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/autojump
+
+  # NOTE: For me, this by itself didn't work. I instead ran `brew install autojump` then put 
+  # `[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh` at the bottom of this file.
+  # FINAL NOTE: Commands will only work on directories which have been visited before as it uses history
+  autojump
+
+  # adds aliases for opening finder window from terminal and others
+  # "tab" - Opens current directory in new tab
+  # "pfd" - Returns path of frontmost Finder window
+  # "ofd" - Open current directory in Finder window
+  # "cdf" - Change to current finder directory
+  # "quick-look" Quick-Look a specified file
+  # https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/osx
+  #osx
+)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -99,91 +166,17 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-# autocomplete
-source ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 
-POWERLEVEL9K_CUSTOM_WIFI_SIGNAL="zsh_wifi_signal"
-POWERLEVEL9K_CUSTOM_WIFI_SIGNAL_BACKGROUND="white"
-POWERLEVEL9K_CUSTOM_WIFI_SIGNAL_FOREGROUND="black"
-
-zsh_wifi_signal(){
-        local output=$(/System/Library/PrivateFrameworks/Apple80211.framework/Versions/A/Resources/airport -I)
-        local airport=$(echo $output | grep 'AirPort' | awk -F': ' '{print $2}')
-
-        if [ "$airport" = "Off" ]; then
-                local color='%F{black}'
-                echo -n "%{$color%}Wifi Off"
-        else
-                local ssid=$(echo $output | grep ' SSID' | awk -F': ' '{print $2}')
-                local speed=$(echo $output | grep 'lastTxRate' | awk -F': ' '{print $2}')
-                local color='%F{black}'
-
-                [[ $speed -gt 100 ]] && color='%F{black}'
-                [[ $speed -lt 50 ]] && color='%F{red}'
-
-                echo -n "%{$color%}$speed Mbps \uf1eb%{%f%}" # removed char not in my PowerLine font
-        fi
-}
-
-POWERLEVEL9K_CONTEXT_TEMPLATE='%n'
-POWERLEVEL9K_CONTEXT_DEFAULT_FOREGROUND='white'
-POWERLEVEL9K_BATTERY_CHARGING='yellow'
-POWERLEVEL9K_BATTERY_CHARGED='green'
-POWERLEVEL9K_BATTERY_DISCONNECTED='$DEFAULT_COLOR'
-POWERLEVEL9K_BATTERY_LOW_THRESHOLD='10'
-POWERLEVEL9K_BATTERY_LOW_COLOR='red'
-POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX=''
-POWERLEVEL9K_BATTERY_ICON='\uf1e6 '
-POWERLEVEL9K_PROMPT_ON_NEWLINE=true
-POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX="%F{014}\u2570%F{cyan}\uF460%F{073}\uF460%F{109}\uF460%f "
-POWERLEVEL9K_VCS_MODIFIED_BACKGROUND='yellow'
-POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND='yellow'
-POWERLEVEL9K_VCS_UNTRACKED_ICON='?'
-
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon context battery dir vcs)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status time dir_writable ip custom_wifi_signal ram load background_jobs)
-
-POWERLEVEL9K_SHORTEN_DIR_LENGTH=1
-
-POWERLEVEL9K_TIME_FORMAT="%D{\uf017 %H:%M \uf073 %d/%m/%y}"
-POWERLEVEL9K_TIME_BACKGROUND='white'
-POWERLEVEL9K_RAM_BACKGROUND='yellow'
-POWERLEVEL9K_LOAD_CRITICAL_BACKGROUND="white"
-POWERLEVEL9K_LOAD_WARNING_BACKGROUND="white"
-POWERLEVEL9K_LOAD_NORMAL_BACKGROUND="white"
-POWERLEVEL9K_LOAD_CRITICAL_FOREGROUND="red"
-POWERLEVEL9K_LOAD_WARNING_FOREGROUND="yellow"
-POWERLEVEL9K_LOAD_NORMAL_FOREGROUND="black"
-POWERLEVEL9K_LOAD_CRITICAL_VISUAL_IDENTIFIER_COLOR="red"
-POWERLEVEL9K_LOAD_WARNING_VISUAL_IDENTIFIER_COLOR="yellow"
-POWERLEVEL9K_LOAD_NORMAL_VISUAL_IDENTIFIER_COLOR="green"
-POWERLEVEL9K_HOME_ICON=''
-POWERLEVEL9K_HOME_SUB_ICON=''
-POWERLEVEL9K_FOLDER_ICON=''
-POWERLEVEL9K_STATUS_VERBOSE=true
-POWERLEVEL9K_STATUS_CROSS=true
+source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+[[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
 
 #vim 
 bindkey -v
 bindkey 'jk' vi-cmd-mode
 
-function zle-line-init zle-keymap-select {
-    RPS1="${${KEYMAP/vicmd/-- NORMAL --}/(main|viins)/-- INSERT --}"
-    RPS2=$RPS1
-    zle reset-prompt
-}
-
-zle -N zle-line-init
-zle -N zle-keymap-select
-
 #binding key autosuggestion 
 bindkey '^ ' autosuggest-accept
-
-#auto start tmux
-#if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
-    #tmux attach -t eventpop || tmux new -s default
-#fi
-
 
 #alias
 alias c="clear"
@@ -192,7 +185,9 @@ alias rc="rails c"
 alias dcmp="docker-compose"
 alias reload='exec $SHELL -l'
 alias gapan='git add --intent-to-add . && git add --patch'
+alias gcm='gitmoji -c'
 
-
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
+
+[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
