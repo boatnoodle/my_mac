@@ -72,6 +72,8 @@ plugins=(
   # adds a bunch of git aliases. See aliases here. https://github.com/robbyrussell/oh-my-zsh/wiki/Plugin:git . Repo here https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/git
   git 
 
+  zsh-syntax-highlighting
+
   # docker autocompletions https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/docker
   #docker 
 
@@ -168,26 +170,32 @@ source $ZSH/oh-my-zsh.sh
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
 
 #vim 
-bindkey -v
-bindkey 'jk' vi-cmd-mode
+#bindkey -v
+#bindkey 'jk' vi-cmd-mode
 
 #binding key autosuggestion 
 bindkey '^ ' autosuggest-accept
 
 #alias
 alias c="clear"
+alias r="rails"
 alias rs="rails s"
 alias rc="rails c"
+alias dc="docker"
 alias dcmp="docker-compose"
 alias reload='exec $SHELL -l'
 alias gapan='git add --intent-to-add . && git add --patch'
 alias gcm='gitmoji -c'
+alias k='kubectl'
+alias composer="php /Users/nat/composer.phar"
+
 
 export PATH="$HOME/.rbenv/bin:$PATH"
+export PATH="/Applications/MongoDB.app/Contents/Resources/Vendor/mongodb/bin:$PATH"
+export EDITOR='vim'
 eval "$(rbenv init -)"
+source ~/tmuxinator.zsh
 
-[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
